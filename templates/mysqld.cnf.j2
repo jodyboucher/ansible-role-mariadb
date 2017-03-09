@@ -1,0 +1,78 @@
+# {{ ansible_managed }}
+
+[mysqld]
+#
+# * Connection and Thread variables
+#
+user                          = {{ mariadb_mysqld_user }}
+port                          = {{ mariadb_mysqld_port }}
+pid_file                      = {{ mariadb_mysqld_pid_file }}
+socket                        = {{ mariadb_mysqld_socket }}
+
+bind-address                  = {{ mariadb_mysqld_bind_address }}
+
+max_connections               = {{ mariadb_mysqld_max_connections }}
+connect_timeout               = {{ mariadb_mysqld_connect_timeout }}
+wait_timeout                  = {{ mariadb_mysqld_wait_timeout }}
+max_allowed_packet            = {{ mariadb_mysqld_max_allowed_packet }}
+thread_cache_size             = {{ mariadb_mysqld_thread_cache_size }}
+
+#
+# * Query Cache
+#
+query_cache_type              = {{ mariadb_mysqld_query_cache_type }}
+query_cache_size              = {{ mariadb_mysqld_query_cache_size }}
+query_cache_limit             = {{ mariadb_mysqld_query_cache_limit }}
+
+#
+# * Error log
+#
+log_warnings                  = {{ mariadb_mysqld_log_warnings }}
+
+#
+# * Slow Query Log
+#
+slow_query_log                = {{ mariadb_mysqld_slow_query_log }}
+slow_query_log_file           = {{ mariadb_mysqld_slow_query_log }}
+long_query_time               = {{ mariadb_mysqld_long_query_time }}
+log_slow_verbosity            = {{ mariadb_mysqld_log_slow_verbosity }}
+log_slow_rate_limit           = {{ mariadb_mysqld_log_slow_rate_limit }}
+log_queries_not_using_indexes = {{ mariadb_mysqld_log_queries_not_using_indexes }}
+
+#
+# * General Query Log
+#
+general_log                   = {{ mariadb_mysqld_general_log }}
+general_log_file              = {{ mariadb_mysqld_general_log_file }}
+
+#
+# * Memory variables
+#
+sort_buffer_size              = {{ mariadb_mysqld_sort_buffer_size }}
+join_buffer_size              = {{ mariadb_mysqld_join_buffer_size }}
+max_heap_table_size           = {{ mariadb_mysqld_max_heap_table_size }}
+tmp_table_size                = {{ mariadb_mysqld_tmp_table_size }}
+
+#
+# * MyISAM variables
+#
+key_buffer_size               = {{ mariadb_mysqld_key_buffer_size }}
+read_buffer_size              = {{ mariadb_mysqld_read_buffer_size }}
+read_rnd_buffer_size          = {{ mariadb_mysqld_read_rnd_buffer_size }}
+
+#
+# * InnoDB variables
+#
+innodb_strict_mode            = {{ mariadb_mysqld_innodb_strict_mode }}
+innodb_buffer_pool_size       = {{ mariadb_mysqld_innodb_buffer_pool_size }}
+innodb_buffer_pool_instances  = {{ mariadb_mysqld_innodb_buffer_pool_instances }}
+innodb_file_per_table         = {{ mariadb_mysqld_innodb_file_per_table }}
+innodb_flush_method           = {{ mariadb_mysqld_innodb_flush_method }}
+innodb_io_capacity            = {{ mariadb_mysqld_innodb_io_capacity }}
+innodb_log_buffer_size        = {{ mariadb_mysqld_innodb_log_buffer_size }}
+
+performance_schema            = {{ mariadb_mysqld_performance_schema }}
+
+{% if not mariadb_mysqld_binary_logging_enabled | default(false) %}
+skip-log-bin
+{% endif %}

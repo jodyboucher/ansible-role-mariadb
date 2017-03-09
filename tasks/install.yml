@@ -1,0 +1,39 @@
+---
+- name: Install dependencies
+  apt:
+    name: "{{ item }}"
+    state: present
+    install_recommends: no
+    update_cache: yes
+    cache_valid_time: 600
+  with_items:
+    "{{ mariadb_require_packages }}"
+
+- name: Add GPG signing key for upstream MariaDB repository
+  apt_key:
+    state: present
+    keyserver: "{{ mariadb_upstream_keyserver }}"
+    id: "{{ mariadb_upstream_key_id }}"
+
+- name: Add upstream MariaDB repository to APT sources
+  apt_repository:
+    repo: "{{ mariadb_upstream_repo }}"
+    state: present
+    update_cache: yes
+    mode: '0644'
+
+- name: Install client packages
+  apt:
+    name: mariadb-client
+    state: latest
+    install_recommends: no
+    update_cache: yes
+    cache_valid_time: 600
+
+- name: Install server packages
+  apt:
+    name: mariadb-server
+    state: latest
+    install_recommends: no
+    update_cache: yes
+    cache_valid_time: 600

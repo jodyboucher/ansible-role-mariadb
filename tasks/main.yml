@@ -1,0 +1,22 @@
+---
+- name: Assert root user is defined
+  assert:
+    that: mariadb_root_username is defined
+    msg: "'mariadb_root_username' must be defined"
+
+- name: Assert root user password is defined
+  assert:
+    that: mariadb_root_password is defined
+    msg: "'mariadb_root_password' must be defined"
+
+- include: install.yml
+- include: configure.yml
+
+- name: Restart MariaDB
+  service:
+    name: mysql
+    state: restarted
+    enabled: true
+
+- name: Secure database server installation
+  include: 'secure.yml'

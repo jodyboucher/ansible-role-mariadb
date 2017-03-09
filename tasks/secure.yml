@@ -1,0 +1,41 @@
+- name: Remove any non-local root accounts
+  mysql_user:
+    name: "{{ mariadb_root_username }}"
+    host: "{{ item }}"
+    state: absent
+  with_flattened:
+    - [ '127.0.0.1', '::1' ]
+    - [ '{{ ansible_hostname if (ansible_hostname != "localhost") else [] }}' ]
+  when: item | default()
+
+- name: Set root user password for local accounts
+  mysql_user:
+    host: "{{ item }}"
+    name: "{{ mariadb_root_username }}"
+    password: "{{ mariadb_root_password }}"
+    check_implicit_admin: yes
+    state: present
+  with_items:
+    - "{{ ansible_hostname }}"
+    - 127.0.0.1
+    - ::1
+    - localhost
+
+- name: Create root .my.cnf file.
+  template:
+    src: user_my_cnf.j2
+    dest: /root/.my.cnf
+    owner: root
+    group: root
+    mode: 0600
+
+- name: Remove any anonymous users
+  mysql_user:
+    user: ''
+    host_all: yes
+    state: absent
+
+- name: Remove the test database
+  mysql_db:
+    name: test
+    state: absent
