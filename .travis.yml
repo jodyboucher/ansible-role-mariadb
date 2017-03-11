@@ -16,16 +16,24 @@ before_install:
 
 script:
   # temp file to hold container id
-  - container_id=$(mktemp)
+  - file_container_id=$(mktemp)
 
   # Run container in detached state.
-  - 'docker run --detach --volume="${PWD}":/etc/ansible/roles/role_under_test:ro ${docker_run_opts} jodyboucher/${os}-ansible "${docker_run_cmd}" > "${container_id}"'
+  - docker run --detach --volume="${PWD}":/etc/ansible/roles/role_under_test:ro ${docker_run_opts} jodyboucher/${os}-ansible "${docker_run_cmd}" > "${file_container_id}"
 
   # TEST: role has valid syntax.
-  - 'docker exec --tty "$(cat ${container_id})" env TERM=xterm ansible-playbook /etc/ansible/roles/role_under_test/tests/${playbook} --syntax-check'
+  - docker exec --tty "$(cat ${file_container_id})" env TERM=xterm ansible-playbook /etc/ansible/roles/role_under_test/tests/${playbook} --syntax-check
 
   # TEST: role tasks execute without failures
-  - 'docker exec "$(cat ${container_id})" ansible-playbook /etc/ansible/roles/role_under_test/tests/${playbook}'
+  - docker exec --tty "$(cat ${file_container_id})" env TERM=xterm ansible-playbook /etc/ansible/roles/role_under_test/tests/${playbook}
 
   # TEST: role is indempotent
+  - file_idempotence_output=$(mktemp)
+  - >
+    docker exec "$(cat ${file_container_id})" ansible-playbook /etc/ansible/roles/role_under_test/tests/${playbook} | tee -a ${file_idempotence_output}
+    tail ${file_idempotence_output}
+    | grep -q 'changed=0.*failed=0'
+    && (echo 'Idempotence test: pass' && exit 0)
+    || (echo 'Idempotence test: fail' && exit 1)
+
   # TEST: MariaDB is installed and running
