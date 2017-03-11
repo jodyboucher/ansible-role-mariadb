@@ -1,5 +1,7 @@
 # Ansible role: MariaDB (server)
 
+[![Build Status](https://travis-ci.org/jodyboucher/ansible-role-mariadb.svg?branch=master)](https://travis-ci.org/jodyboucher/ansible-role-mariadb)
+
 An [Ansible](https://www.ansible.com/) role that installs and configures MariaDB server.
 
 This role is designed for Ubuntu 16.04 Xenial.
