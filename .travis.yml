@@ -1,0 +1,31 @@
+---
+sudo: required
+
+services:
+  - docker
+
+env:
+  - os: ubuntu1604
+    docker_run_cmd: /lib/systemd/systemd
+    docker_run_opts: "--privileged --volume=/sys/fs/cgroup:/sys/fs/cgroup:ro"
+    playbook: test.yml
+
+before_install:
+  # Get a clean container for the tests to execute in.
+  - docker pull jodyboucher/${os}-ansible
+
+script:
+  # temp file to hold container id
+  - container_id=$(mktemp)
+
+  # Run container in detached state.
+  - 'docker run --detach --volume="${PWD}":/etc/ansible/roles/role_under_test:ro ${docker_run_opts} jodyboucher/${os}-ansible "${docker_run_cmd}" > "${container_id}"'
+
+  # TEST: role has valid syntax.
+  - 'docker exec --tty "$(cat ${container_id})" env TERM=xterm ansible-playbook /etc/ansible/roles/role_under_test/tests/${playbook} --syntax-check'
+
+  # TEST: role tasks execute without failures
+  - 'docker exec "$(cat ${container_id})" ansible-playbook /etc/ansible/roles/role_under_test/tests/${playbook}'
+
+  # TEST: role is indempotent
+  # TEST: MariaDB is installed and running
