@@ -17,6 +17,7 @@
     name: mysql
     state: restarted
     enabled: true
+  when: mariadb_config_result.changed
 
 - name: Secure database server installation
   include: 'secure.yml'

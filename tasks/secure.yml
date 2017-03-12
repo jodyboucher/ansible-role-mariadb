@@ -1,12 +1,6 @@
 - name: Remove any non-local root accounts
-  mysql_user:
-    name: "{{ mariadb_root_username }}"
-    host: "{{ item }}"
-    state: absent
-  with_flattened:
-    - [ '127.0.0.1', '::1' ]
-    - [ '{{ ansible_hostname if (ansible_hostname != "localhost") else [] }}' ]
-  when: item | default()
+  command: 'mysql -NBe "DELETE FROM mysql.user WHERE User='{{ mariadb_root_username }}' AND Host NOT IN ('localhost', '127.0.0.1', '::1')"'
+  changed_when: false
 
 - name: Set root user password for local accounts
   mysql_user:
