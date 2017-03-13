@@ -27,7 +27,7 @@ script:
   # TEST: role tasks execute without failures
   - docker exec --tty "$(cat ${file_container_id})" env TERM=xterm ansible-playbook /etc/ansible/roles/role_under_test/tests/${playbook}
 
-  # TEST: role is indempotent
+  # TEST: role is idempotent
   - file_idempotence_output=$(mktemp)
   - >
     docker exec "$(cat ${file_container_id})" ansible-playbook /etc/ansible/roles/role_under_test/tests/${playbook} | tee -a ${file_idempotence_output}
@@ -37,3 +37,22 @@ script:
     || (echo 'Idempotence test: fail' && exit 1)
 
   # TEST: MariaDB is installed and running
+  # Verify connection via Unix socket by checking for information_schema database
+  - >
+    sudo docker exec "$(cat ${file_container_id})" mysql --user=root --password=changeme --execute='show databases;'
+    | grep -q 'information_schema'
+    && (echo 'MaridDB running normally' && exit 0)
+    || (echo 'MariaDB not running' && exit 1)
+
+  # Verify connection via TCP by checking for information_schema database
+  - >
+    sudo docker exec "$(cat ${file_container_id})" mysql --user=root --password=changeme --host=127.0.0.1 --execute='show databases;'
+    | grep -q 'information_schema'
+    && (echo 'MariaDB running normally' && exit 0)
+    || (echo 'MariaDB not running' && exit 1)
+
+after_failure:
+  # Output logs
+  - docker exec --tty "$(cat ${container_id})" env TERM=xterm cat /var/log/mysql/error.log
+  - docker exec --tty "$(cat ${container_id})" env TERM=xterm cat /var/log/mysql.err
+  - docker exec --tty "$(cat ${container_id})" env TERM=xterm cat /var/log/mysql.log
