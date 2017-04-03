@@ -84,7 +84,7 @@ mariadb_mysqld_innodb_file_per_table: 1
 mariadb_mysqld_innodb_flush_method: O_DIRECT
 mariadb_mysqld_innodb_io_capacity: 500
 mariadb_mysqld_innodb_log_buffer_size: 8M
-mariadb_mysqld_performance_schema: off
+mariadb_mysqld_performance_schema: "off"
 mariadb_mysqld_binary_logging_enabled: false
 
 ```
