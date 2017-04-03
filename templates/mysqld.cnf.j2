@@ -17,6 +17,9 @@ wait_timeout                  = {{ mariadb_mysqld_wait_timeout }}
 max_allowed_packet            = {{ mariadb_mysqld_max_allowed_packet }}
 thread_cache_size             = {{ mariadb_mysqld_thread_cache_size }}
 
+lc_messages_dir               = /usr/share/mysql
+lc_messages                   = en_US
+
 #
 # * Query Cache
 #
@@ -33,7 +36,7 @@ log_warnings                  = {{ mariadb_mysqld_log_warnings }}
 # * Slow Query Log
 #
 slow_query_log                = {{ mariadb_mysqld_slow_query_log }}
-slow_query_log_file           = {{ mariadb_mysqld_slow_query_log }}
+slow_query_log_file           = {{ mariadb_mysqld_slow_query_log_file }}
 long_query_time               = {{ mariadb_mysqld_long_query_time }}
 log_slow_verbosity            = {{ mariadb_mysqld_log_slow_verbosity }}
 log_slow_rate_limit           = {{ mariadb_mysqld_log_slow_rate_limit }}
