@@ -9,8 +9,8 @@
     that: mariadb_root_password is defined
     msg: "'mariadb_root_password' must be defined"
 
-- include: install.yml
-- include: configure.yml
+- import_tasks: install.yml
+- import_tasks: configure.yml
 
 - name: Restart MariaDB
   service:
@@ -20,4 +20,4 @@
   when: mariadb_config_result.changed
 
 - name: Secure database server installation
-  include: 'secure.yml'
+  import_tasks: 'secure.yml'

@@ -8,7 +8,8 @@ This role is designed for Ubuntu 16.04 Xenial.
 
 ## Requirements
 
-This role requires `root` access so be sure to enable privilege escalation:
+* [Ansible](https://docs.ansible.com/ansible/intro_installation.html) >= 2.4 (makes use of new import_tasks module)
+* This role requires `root` access so be sure to enable privilege escalation:
 
 ```
 # privilege escalation of play
