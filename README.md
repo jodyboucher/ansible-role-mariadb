@@ -11,7 +11,7 @@ This role is designed for Ubuntu 16.04 Xenial.
 * [Ansible](https://docs.ansible.com/ansible/intro_installation.html) >= 2.4 (makes use of new import_tasks module)
 * This role requires `root` access so be sure to enable privilege escalation:
 
-```
+```yml
 # privilege escalation of play
 - hosts: databases
   become: true
@@ -29,7 +29,7 @@ This role is designed for Ubuntu 16.04 Xenial.
 
 Available variables are listed below, along with default values (see `defaults/main.yml`):
 
-```
+```yml
 # The root account name and password
 mariadb_root_username: root
 mariadb_root_password: changeme
@@ -96,7 +96,7 @@ None.
 
 ## Example Playbook
 
-```
+```yml
 ---
 - hosts: databases
   become: true
@@ -108,7 +108,7 @@ None.
 
 Inside `vars/main.yml`:
 
-```
+```yml
 ---
 mariadb_root_password: make*me*secure
 
@@ -118,17 +118,19 @@ mariadb_mysqld_max_connections: 500
 ## Installation
 
 On the command-line:
-```
-$ ansible-galaxy install git+https://github.com/jodyboucher/ansible-role-mariadb.git
+
+```bash
+ansible-galaxy install git+https://github.com/jodyboucher/ansible-role-mariadb.git
 ```
 
 or in a role file (requirements.yml):
 
-```
+```yml
 - name: mariadb
   src: https://github.com/jodyboucher/ansible-role-mariadb
   version: master
 ```
+
 ## License
 
 MIT
