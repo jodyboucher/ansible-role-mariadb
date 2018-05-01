@@ -4,7 +4,10 @@
 
 An [Ansible](https://www.ansible.com/) role that installs and configures MariaDB server.
 
-This role is designed for Ubuntu 16.04 Xenial.
+This role is designed for and tested on the following OS distributions:
+
+* Ubuntu 16.04 Xenial
+* Ubuntu 18.04 Bionic
 
 ## Requirements
 
