@@ -9,6 +9,10 @@ env:
     docker_run_cmd: /lib/systemd/systemd
     docker_run_opts: "--privileged --volume=/sys/fs/cgroup:/sys/fs/cgroup:ro"
     playbook: test.yml
+  - os: ubuntu1804
+    docker_run_cmd: /lib/systemd/systemd
+    docker_run_opts: "--privileged --volume=/sys/fs/cgroup:/sys/fs/cgroup:ro"
+    playbook: test.yml
 
 before_install:
   # Get a clean container for the tests to execute in.
