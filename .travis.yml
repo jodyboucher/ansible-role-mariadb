@@ -50,7 +50,7 @@ script:
 
   # Verify connection via TCP by checking for information_schema database
   - >
-    sudo docker exec "$(cat ${file_container_id})" mysql --user=root --password=changeme --host=127.0.0.1 --execute='show databases;'
+    sudo docker exec "$(cat ${file_container_id})" mysql --user=root --host=127.0.0.1 --execute='show databases;'
     | grep -q 'information_schema'
     && (echo 'Successfully connected to MariaDB via TCP' && exit 0)
     || (echo 'Failed to connect to MariaDB via TCP' && exit 1)
