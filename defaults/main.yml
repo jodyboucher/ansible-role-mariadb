@@ -9,7 +9,7 @@ mariadb_require_packages:
   - python-mysqldb
 
 # The version of MariaDB to install
-mariadb_version: 10.2
+mariadb_version: 10.1
 # GPG signing info for MariaDB repository
 mariadb_upstream_keyserver: hkp://keyserver.ubuntu.com:80
 mariadb_upstream_key_id: "0xF1656F24C74CD1D8"
