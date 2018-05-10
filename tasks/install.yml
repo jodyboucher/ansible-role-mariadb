@@ -37,3 +37,11 @@
     install_recommends: no
     update_cache: yes
     cache_valid_time: 600
+
+- name: Install Python3 package for connecting to MySql/MariaDb
+  apt:
+    name: python3-mysqldb
+    state: latest
+    install_recommends: no
+    update_cache: yes
+    cache_valid_time: 600
