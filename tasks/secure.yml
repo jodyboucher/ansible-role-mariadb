@@ -7,7 +7,7 @@
 - name: Remove any plugins (auth_socket) from root user
   command: 'mysql -NBe "{{ item }}"'
   with_items:
-    UPDATE user SET plugin = '' WHERE user = '{{ mariadb_root_username }}' AND host = 'localhost';
+    UPDATE mysql.user SET plugin = '' WHERE user = '{{ mariadb_root_username }}' AND host = 'localhost';
     FLUSH PRIVILEGES;
   changed_when: false
 
