@@ -40,10 +40,6 @@ script:
     && (echo 'Idempotence test: pass' && exit 0)
     || (echo 'Idempotence test: fail' && exit 1)
 
-  # TEST show user data
-  - >
-    docker exec "$(cat ${file_container_id})" mysql --user=root --password=changeme --execute='select host,user,authentication_string,plugin from mysql.user;'
-  
   # TEST: MariaDB is installed and running
   # Verify connection via Unix socket by checking for information_schema database
   - >
